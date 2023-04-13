@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { UserEntity } from './user/user.entity';
+import { UserEntity } from './user/entity/user.entity';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { UserEntity } from './user/user.entity';
       database: 'Dictionary',
       entities: [UserEntity],
       synchronize: true,
+      logging: true,
     }),
     UserModule,
   ],
