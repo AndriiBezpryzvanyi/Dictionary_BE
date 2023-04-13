@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import bcrypt from 'bcrypt';
@@ -26,28 +26,11 @@ export class UserService {
   }
 
   async userRegistration(receivedUser: CreateUserDto) {
-    return this.userRepository.save(receivedUser);
-    // const queryRunner = this.dataSource.createQueryRunner();
-
-    // await queryRunner.connect();
-    // await queryRunner.startTransaction();
-
-    // const newUser = new UserEntity();
-    // newUser.first_name = receivedUser.first_name;
-    // newUser.second_name = receivedUser.second_name;
-    // newUser.email = receivedUser.email;
-    // newUser.password = await bcrypt.hash(receivedUser.password, 10);
-
-    // try {
-    //   await queryRunner.manager.save(newUser);
-    //   await queryRunner.commitTransaction();
-    //   return `Created user ${newUser.first_name} ${newUser.second_name}`;
-    // } catch (err) {
-    //   await queryRunner.rollbackTransaction();
-    //   return 'Something went wrong';
-    // } finally {
-    //   await queryRunner.release();
-    // }
+    return this.userRepository.save({
+      ...receivedUser,
+      // password: await bcrypt.hash(receivedUser.password, 10),
+      password: await bcrypt.hash(receivedUser.password, 10),
+    });
   }
 
   async removeUser(id: string) {

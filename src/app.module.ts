@@ -16,7 +16,6 @@ import { UserEntity } from './user/entity/user.entity';
       database: 'Dictionary',
       entities: [UserEntity],
       synchronize: true,
-      // migrations: ['dist/migrations/*.js'],
       logging: true,
     }),
     UserModule,
