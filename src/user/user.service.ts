@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -16,13 +14,14 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async getById(id: number) {
+  async getById(id: number): Promise<UserEntity | string> {
     const user = await this.userRepository.findOneBy({ id });
-    if (user) {
-      return user;
-    } else {
-      return `User with id ${id} not found`;
-    }
+    if (user) return user;
+    return `User with id ${id} not found`;
+  }
+
+  async getByEmail(email: string): Promise<UserEntity> {
+    return await this.userRepository.findOneBy({ email });
   }
 
   async removeUser(id: string) {
