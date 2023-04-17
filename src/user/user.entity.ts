@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ nullable: true })
   email: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @CreateDateColumn()
