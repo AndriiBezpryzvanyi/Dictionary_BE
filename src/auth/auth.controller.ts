@@ -12,8 +12,8 @@ export class AuthController {
     return this.authService.userRegistration(newUser);
   }
 
-  @Post('/login')
-  login(@Body() userCredentials: LoginUserDto) {
-    return this.authService.userLogin(userCredentials);
-  }
+  // @Post('/login')
+  // login(@Body() userCredentials: LoginUserDto) {
+  //   return this.authService.userLogin(userCredentials);
+  // }
 }
