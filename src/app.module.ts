@@ -1,19 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseConfigService } from './config/MongooseConfigService';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://Nolon:312111Qwe@dictionary.uryzazp.mongodb.net/?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: MongooseConfigService,
+    }),
+    ConfigModule.forRoot({
+      load: [configuration],
+    }),
     UserModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
