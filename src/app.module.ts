@@ -1,28 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { UserEntity } from './user/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseConfigService } from './config/MongooseConfigService';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '312111Qwe',
-      database: 'Dictionary',
-      entities: [UserEntity],
-      synchronize: true,
-      logging: true,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: MongooseConfigService,
+    }),
+    ConfigModule.forRoot({
+      load: [configuration],
     }),
     UserModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

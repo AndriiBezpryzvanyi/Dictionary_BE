@@ -15,8 +15,8 @@ export class UserController {
     return this.userService.getById(+id);
   }
 
-  @Delete(':id')
-  deleteUser(@Param('id') id: string) {
-    return this.userService.removeUser(id);
-  }
+  // @Delete(':id')
+  // deleteUser(@Param('id') id: string) {
+  //   return this.userService.removeUser(id);
+  // }
 }
