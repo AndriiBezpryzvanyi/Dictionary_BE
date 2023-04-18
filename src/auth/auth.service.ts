@@ -25,10 +25,16 @@ export class AuthService {
     return hashedPassword;
   }
 
-  async userRegistration(receivedUser: CreateUserDto): Promise<User> {
+  async userRegistration(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.userModel.collection.findOne({
+      email: createUserDto.email,
+    });
+    if (existingUser) {
+      return null;
+    }
     const newUser = new this.userModel({
-      ...receivedUser,
-      password: await this.hashPassword(receivedUser.password),
+      ...CreateUserDto,
+      password: await this.hashPassword(createUserDto.password),
     });
     return newUser.save();
   }

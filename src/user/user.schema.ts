@@ -14,7 +14,7 @@ export class User {
   @Prop()
   vocabulary_id: string;
 
-  @Prop()
+  @Prop({ required: true })
   email: string;
 
   @Prop({ required: true })
